@@ -24,6 +24,6 @@ platform :android do
   desc "Deploy new metadata to the Google Play"
   lane :deploy_meta do
     #gradle(task: "clean bundleRelease")
-    upload_to_play_store(track: "beta", skip_upload_apk: true, skip_upload_aab: true)
+    upload_to_play_store(track: "release", skip_upload_apk: true, skip_upload_aab: true)
   end
 end
