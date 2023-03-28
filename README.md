@@ -4,7 +4,7 @@
   XTimeMachine
   <br>
 </h1>
-<h4 align="center">Let apps travel back in time to circumvent timed app trials</h4>
+<h4 align="center">(Work in progress) Let apps travel back in time to circumvent timed app trials</h4>
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=me.timschneeberger.xtimemachine&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
   	<img alt="Google play release" src="https://img.shields.io/github/v/release/ThePBone/XTimeMachine?label=google%20play">
@@ -21,4 +21,4 @@
 Supports <a href='https://github.com/LSPosed/LSPatch'> LSPatch</a>. No root or system-wide Xposed required.
 </p>
 
-Work in progress
+
