@@ -39,7 +39,6 @@ jobs:
           distribution: adopt
 
       - name: Build release app
-        if: startsWith(github.ref, 'refs/tags/')
         uses: gradle/gradle-command-action@v2
         with:
           arguments: assembleRelease
