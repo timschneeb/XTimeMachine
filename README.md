@@ -21,14 +21,4 @@
 Supports <a href='https://github.com/LSPosed/LSPatch'> LSPatch</a>. No root or system-wide Xposed required.
 </p>
 
-<p align="center">
-  <a href='https://play.google.com/store/apps/details?id=me.timschneeberger.xtimemachine&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'> 
-    <img width="300" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/>
-  </a>
-</p>
-
-
-## Downloads
-
-This app is available for free on Google Play: [https://play.google.com/store/apps/details?id=me.timschneeberger.xtimemachine](https://play.google.com/store/apps/details?id=me.timschneeberger.xtimemachine&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
-
+Work in progress
