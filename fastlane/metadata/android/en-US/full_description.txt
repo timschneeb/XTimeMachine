@@ -1,0 +1,3 @@
+Requires LSPatch (no-root) or a XPosed implementatio such as LSPosed to function correctly.
+
+Let apps travel back in time to circumvent timed app trials and other restrictions.

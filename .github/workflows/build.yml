@@ -1,0 +1,100 @@
+name: Build signed app
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build app
+    runs-on: ubuntu-latest
+        
+    steps:
+      - name: Install packages
+        run: |
+          sudo apt update
+          sudo apt install rename
+    
+      - name: Clone repo
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: adopt
+
+      - name: Build release app
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: gradle/gradle-command-action@v2
+        with:
+          arguments: assembleRelease
+
+      - name: Sign APKs
+        uses: ilharp/sign-android-release@v1.0.4
+        with:
+          releaseDir: app/build/outputs/apk/${{ env.BUILD_TYPE }}
+          signingKey: ${{ secrets.SIGNING_KEYSTORE }}
+          keyAlias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Rename build artifacts
+        run: |
+          set -e
+          ls -l app/build/outputs/apk/${{ env.BUILD_TYPE }}
+          rename -v 's/-unsigned-signed//g' app/build/outputs/apk/${{ env.BUILD_TYPE }}/*.apk
+          rm -f app/build/outputs/apk/${{ env.BUILD_TYPE }}/*unsigned*.apk || true
+          ls -l app/build/outputs/apk/${{ env.BUILD_TYPE }}
+
+      - name: Upload build artifact (universal)
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: "XTimeMachine_apk_build"
+          path: app/build/outputs/apk/${{ env.BUILD_TYPE }}/*universal-${{ env.BUILD_TYPE }}-signed.apk
+
+       
+      - name: Changelog
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: ardalanamini/auto-changelog@v3
+        id: changelog
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          release-name: ${{ env.VERSION_TAG }}
+          mention-authors: false
+          mention-new-contributors: false
+          include-compare: true
+          
+      - name: Read changelog template
+        id: changelog_post
+        uses: andstor/file-reader-action@v1
+        with:
+          path: ".github/CHANGELOG_POSTFIX.md"
+          
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/') && github.repository == 'ThePBone/XTimeMachine'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.VERSION_TAG }}
+          name: XTimeMachine ${{ env.VERSION_TAG }}
+          body: "${{ steps.changelog.outputs.changelog }} &#x20; ${{ steps.changelog_post.outputs.contents }}"
+          #files: |
+          #   app/build/outputs/apk/${{ env.BUILD_TYPE }}/*-signed.apk
+          draft: true
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

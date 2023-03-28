@@ -1,0 +1,51 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        app:title="@string/time_machine"
+        app:iconSpaceReserved="false">
+
+        <me.timschneeberger.xtimemachine.DatePreference
+            app:key="fakeDate"
+            app:title="@string/fake_date"
+            tools:summary="2023-03-24"
+            app:iconSpaceReserved="false"/>
+
+        <Preference
+            app:summary="@string/fake_date_info"
+            app:selectable="false"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="Info"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            app:title="@string/view_project_on_github"
+            app:summary="@string/view_project_on_github_summary"
+            app:iconSpaceReserved="false">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/thepbone/XTimeMachine" />
+        </Preference>
+
+        <Preference
+            app:title="@string/view_lspatch_project_page"
+            app:summary="@string/view_lspatch_project_page_summary"
+            app:iconSpaceReserved="false">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/LSPosed/LSPatch" />
+        </Preference>
+
+        <Preference
+            app:summary="@string/lspatch_info"
+            app:selectable="false"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
